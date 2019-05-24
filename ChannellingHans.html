@@ -1,0 +1,974 @@
+<!-- 	COMP40610 Information Visualisation Assignment: Channelling Hans!
+		A project by:
+		-Ishitha Sorathiya (18200403)
+        -Sumanth Sajjan (18200109)
+        -Thejas Raju Ravi Govind Raju (18204398)
+
+-->
+
+<!DOCTYPE html>
+<html>
+   <head>
+		<script type = "text/javascript" src = "http://d3js.org/d3.v5.min.js"></script>
+   </head>
+   <body>
+		<!-- Button to reset all filters -->
+		<button onclick="Reload()">Reset</button>
+		<button onclick="Pause()">Pause</button>
+		<button onclick="Play()">Play</button>
+
+		<!-- Section to display dropdown for YearFilter -->
+		<label style="margin-left:20px; margin-right:15px;">Select Year</label>
+		<select id="YearDropdown" onchange="YeardropdownChange(this.value)">
+			<option value=0>--All Year--</option>
+			<option value=2007>2007</option>
+			<option value=2008>2008</option>
+			<option value=2009>2009</option>
+			<option value=2010>2010</option>
+			<option value=2011>2011</option>
+			<option value=2012>2012</option>
+			<option value=2013>2013</option>
+			<option value=2014>2014</option>			
+			<option value=2015>2015</option>
+			<option value=2016>2016</option>
+			<option value=2017>2017</option>
+		</select>
+		
+		<!-- Section to display dropdown for CountryFilter 1 -->
+		<label style="margin-left:20px; margin-right:15px;">Select One Country</label>
+		<select id="CountryDropdown" onchange="CountrydropdownChange(this.value)">
+			<option value='None'>--Country--</option>
+			<option value='Albania'>Albania</option>
+			<option value='Algeria'>Algeria</option>
+			<option value='Angola'>Angola</option>
+			<option value='Argentina'>Argentina</option>
+			<option value='Armenia'>Armenia</option>
+			<option value='Australia'>Australia</option>
+			<option value='Austria'>Austria</option>
+			<option value='Azerbaijan'>Azerbaijan</option>
+			<option value='Bahrain'>Bahrain</option>
+			<option value='Bangladesh'>Bangladesh</option>
+			<option value='Barbados'>Barbados</option>
+			<option value='Belgium'>Belgium</option>
+			<option value='Belize'>Belize</option>
+			<option value='Benin'>Benin</option>
+			<option value='Bhutan'>Bhutan</option>
+			<option value='Bolivia'>Bolivia</option>
+			<option value='Bosnia and Herzegovina'>Bosnia and Herzegovina</option>
+			<option value='Botswana'>Botswana</option>
+			<option value='Brazil'>Brazil</option>
+			<option value='Bulgaria'>Bulgaria</option>
+			<option value='Burkina Faso'>Burkina Faso</option>
+			<option value='Burundi'>Burundi</option>
+			<option value='Cambodia'>Cambodia</option>
+			<option value='Cameroon'>Cameroon</option>
+			<option value='Canada'>Canada</option>
+			<option value='Cape Verde'>Cape Verde</option>
+			<option value='Chad'>Chad</option>
+			<option value='Chile'>Chile</option>
+			<option value='China'>China</option>
+			<option value='Colombia'>Colombia</option>
+			<option value='Costa Rica'>Costa Rica</option>
+			<option value='Croatia'>Croatia</option>
+			<option value='Cyprus'>Cyprus</option>
+			<option value='Czech Republic'>Czech Republic</option>
+			<option value='Denmark'>Denmark</option>
+			<option value='Dominican Republic'>Dominican Republic</option>
+			<option value='Ecuador'>Ecuador</option>
+			<option value='Egypt'>Egypt</option>
+			<option value='El Salvador'>El Salvador</option>
+			<option value='Estonia'>Estonia</option>
+			<option value='Ethiopia'>Ethiopia</option>
+			<option value='Finland'>Finland</option>
+			<option value='France'>France</option>
+			<option value='Gabon'>Gabon</option>
+			<option value='Gambia, The'>Gambia, The</option>
+			<option value='Georgia'>Georgia</option>
+			<option value='Germany'>Germany</option>
+			<option value='Ghana'>Ghana</option>
+			<option value='Greece'>Greece</option>
+			<option value='Guatemala'>Guatemala</option>
+			<option value='Guinea'>Guinea</option>
+			<option value='Guyana'>Guyana</option>
+			<option value='Haiti'>Haiti</option>
+			<option value='Honduras'>Honduras</option>
+			<option value='Hungary'>Hungary</option>
+			<option value='Iceland'>Iceland</option>
+			<option value='India'>India</option>
+			<option value='Indonesia'>Indonesia</option>
+			<option value='Iran, Islamic Rep.'>Iran, Islamic Rep.</option>
+			<option value='Ireland'>Ireland</option>
+			<option value='Israel'>Israel</option>
+			<option value='Italy'>Italy</option>
+			<option value='Jamaica'>Jamaica</option>
+			<option value='Japan'>Japan</option>
+			<option value='Jordan'>Jordan</option>
+			<option value='Kazakhstan'>Kazakhstan</option>
+			<option value='Kenya'>Kenya</option>
+			<option value='Korea, Rep.'>Korea, Rep.</option>
+			<option value='Kuwait'>Kuwait</option>
+			<option value='Latvia'>Latvia</option>
+			<option value='Lebanon'>Lebanon</option>
+			<option value='Lesotho'>Lesotho</option>
+			<option value='Liberia'>Liberia</option>
+			<option value='Libya'>Libya</option>
+			<option value='Lithuania'>Lithuania</option>
+			<option value='Luxembourg'>Luxembourg</option>
+			<option value='Madagascar'>Madagascar</option>
+			<option value='Malawi'>Malawi</option>
+			<option value='Malaysia'>Malaysia</option>
+			<option value='Mali'>Mali</option>
+			<option value='Malta'>Malta</option>
+			<option value='Mauritania'>Mauritania</option>
+			<option value='Mauritius'>Mauritius</option>
+			<option value='Mexico'>Mexico</option>
+			<option value='Moldova'>Moldova</option>
+			<option value='Mongolia'>Mongolia</option>
+			<option value='Montenegro'>Montenegro</option>
+			<option value='Morocco'>Morocco</option>
+			<option value='Mozambique'>Mozambique</option>
+			<option value='Namibia'>Namibia</option>
+			<option value='Nepal'>Nepal</option>
+			<option value='Netherlands'>Netherlands</option>
+			<option value='New Zealand'>New Zealand</option>
+			<option value='Nicaragua'>Nicaragua</option>
+			<option value='Nigeria'>Nigeria</option>
+			<option value='Norway'>Norway</option>
+			<option value='Oman'>Oman</option>
+			<option value='Pakistan'>Pakistan</option>
+			<option value='Panama'>Panama</option>
+			<option value='Paraguay'>Paraguay</option>
+			<option value='Peru'>Peru</option>
+			<option value='Philippines'>Philippines</option>
+			<option value='Poland'>Poland</option>
+			<option value='Portugal'>Portugal</option>
+			<option value='Qatar'>Qatar</option>
+			<option value='Romania'>Romania</option>
+			<option value='Russian Federation'>Russian Federation</option>
+			<option value='Rwanda'>Rwanda</option>
+			<option value='Saudi Arabia'>Saudi Arabia</option>
+			<option value='Senegal'>Senegal</option>
+			<option value='Serbia'>Serbia</option>
+			<option value='Seychelles'>Seychelles</option>
+			<option value='Sierra Leone'>Sierra Leone</option>
+			<option value='Singapore'>Singapore</option>
+			<option value='Slovenia'>Slovenia</option>
+			<option value='South Africa'>South Africa</option>
+			<option value='Spain'>Spain</option>
+			<option value='Sri Lanka'>Sri Lanka</option>
+			<option value='Suriname'>Suriname</option>
+			<option value='Swaziland'>Swaziland</option>
+			<option value='Sweden'>Sweden</option>
+			<option value='Switzerland'>Switzerland</option>
+			<option value='Syria'>Syria</option>
+			<option value='Tajikistan'>Tajikistan</option>
+			<option value='Tanzania'>Tanzania</option>
+			<option value='Thailand'>Thailand</option>
+			<option value='Trinidad and Tobago'>Trinidad and Tobago</option>
+			<option value='Tunisia'>Tunisia</option>
+			<option value='Turkey'>Turkey</option>
+			<option value='Uganda'>Uganda</option>
+			<option value='Ukraine'>Ukraine</option>
+			<option value='United Arab Emirates'>United Arab Emirates</option>
+			<option value='United Kingdom'>United Kingdom</option>
+			<option value='United States'>United States</option>
+			<option value='Uruguay'>Uruguay</option>
+			<option value='Venezuela'>Venezuela</option>
+			<option value='Yemen'>Yemen</option>
+			<option value='Zambia'>Zambia</option>
+			<option value='Zimbabwe'>Zimbabwe</option>
+		</select>
+		
+		<!-- Section to display dropdown for CountryFilter 2 -->
+		<label style="margin-left:20px; margin-right:15px;">Select Another Country</label>
+		<select id="CountryDropdown1" onchange="CountrydropdownChange1(this.value)">
+			<option value='None'>--Country--</option>
+			<option value='Albania'>Albania</option>
+			<option value='Algeria'>Algeria</option>
+			<option value='Angola'>Angola</option>
+			<option value='Argentina'>Argentina</option>
+			<option value='Armenia'>Armenia</option>
+			<option value='Australia'>Australia</option>
+			<option value='Austria'>Austria</option>
+			<option value='Azerbaijan'>Azerbaijan</option>
+			<option value='Bahrain'>Bahrain</option>
+			<option value='Bangladesh'>Bangladesh</option>
+			<option value='Barbados'>Barbados</option>
+			<option value='Belgium'>Belgium</option>
+			<option value='Belize'>Belize</option>
+			<option value='Benin'>Benin</option>
+			<option value='Bhutan'>Bhutan</option>
+			<option value='Bolivia'>Bolivia</option>
+			<option value='Bosnia and Herzegovina'>Bosnia and Herzegovina</option>
+			<option value='Botswana'>Botswana</option>
+			<option value='Brazil'>Brazil</option>
+			<option value='Bulgaria'>Bulgaria</option>
+			<option value='Burkina Faso'>Burkina Faso</option>
+			<option value='Burundi'>Burundi</option>
+			<option value='Cambodia'>Cambodia</option>
+			<option value='Cameroon'>Cameroon</option>
+			<option value='Canada'>Canada</option>
+			<option value='Cape Verde'>Cape Verde</option>
+			<option value='Chad'>Chad</option>
+			<option value='Chile'>Chile</option>
+			<option value='China'>China</option>
+			<option value='Colombia'>Colombia</option>
+			<option value='Costa Rica'>Costa Rica</option>
+			<option value='Croatia'>Croatia</option>
+			<option value='Cyprus'>Cyprus</option>
+			<option value='Czech Republic'>Czech Republic</option>
+			<option value='Denmark'>Denmark</option>
+			<option value='Dominican Republic'>Dominican Republic</option>
+			<option value='Ecuador'>Ecuador</option>
+			<option value='Egypt'>Egypt</option>
+			<option value='El Salvador'>El Salvador</option>
+			<option value='Estonia'>Estonia</option>
+			<option value='Ethiopia'>Ethiopia</option>
+			<option value='Finland'>Finland</option>
+			<option value='France'>France</option>
+			<option value='Gabon'>Gabon</option>
+			<option value='Gambia, The'>Gambia, The</option>
+			<option value='Georgia'>Georgia</option>
+			<option value='Germany'>Germany</option>
+			<option value='Ghana'>Ghana</option>
+			<option value='Greece'>Greece</option>
+			<option value='Guatemala'>Guatemala</option>
+			<option value='Guinea'>Guinea</option>
+			<option value='Guyana'>Guyana</option>
+			<option value='Haiti'>Haiti</option>
+			<option value='Honduras'>Honduras</option>
+			<option value='Hungary'>Hungary</option>
+			<option value='Iceland'>Iceland</option>
+			<option value='India'>India</option>
+			<option value='Indonesia'>Indonesia</option>
+			<option value='Iran, Islamic Rep.'>Iran, Islamic Rep.</option>
+			<option value='Ireland'>Ireland</option>
+			<option value='Israel'>Israel</option>
+			<option value='Italy'>Italy</option>
+			<option value='Jamaica'>Jamaica</option>
+			<option value='Japan'>Japan</option>
+			<option value='Jordan'>Jordan</option>
+			<option value='Kazakhstan'>Kazakhstan</option>
+			<option value='Kenya'>Kenya</option>
+			<option value='Korea, Rep.'>Korea, Rep.</option>
+			<option value='Kuwait'>Kuwait</option>
+			<option value='Latvia'>Latvia</option>
+			<option value='Lebanon'>Lebanon</option>
+			<option value='Lesotho'>Lesotho</option>
+			<option value='Liberia'>Liberia</option>
+			<option value='Libya'>Libya</option>
+			<option value='Lithuania'>Lithuania</option>
+			<option value='Luxembourg'>Luxembourg</option>
+			<option value='Madagascar'>Madagascar</option>
+			<option value='Malawi'>Malawi</option>
+			<option value='Malaysia'>Malaysia</option>
+			<option value='Mali'>Mali</option>
+			<option value='Malta'>Malta</option>
+			<option value='Mauritania'>Mauritania</option>
+			<option value='Mauritius'>Mauritius</option>
+			<option value='Mexico'>Mexico</option>
+			<option value='Moldova'>Moldova</option>
+			<option value='Mongolia'>Mongolia</option>
+			<option value='Montenegro'>Montenegro</option>
+			<option value='Morocco'>Morocco</option>
+			<option value='Mozambique'>Mozambique</option>
+			<option value='Namibia'>Namibia</option>
+			<option value='Nepal'>Nepal</option>
+			<option value='Netherlands'>Netherlands</option>
+			<option value='New Zealand'>New Zealand</option>
+			<option value='Nicaragua'>Nicaragua</option>
+			<option value='Nigeria'>Nigeria</option>
+			<option value='Norway'>Norway</option>
+			<option value='Oman'>Oman</option>
+			<option value='Pakistan'>Pakistan</option>
+			<option value='Panama'>Panama</option>
+			<option value='Paraguay'>Paraguay</option>
+			<option value='Peru'>Peru</option>
+			<option value='Philippines'>Philippines</option>
+			<option value='Poland'>Poland</option>
+			<option value='Portugal'>Portugal</option>
+			<option value='Qatar'>Qatar</option>
+			<option value='Romania'>Romania</option>
+			<option value='Russian Federation'>Russian Federation</option>
+			<option value='Rwanda'>Rwanda</option>
+			<option value='Saudi Arabia'>Saudi Arabia</option>
+			<option value='Senegal'>Senegal</option>
+			<option value='Serbia'>Serbia</option>
+			<option value='Seychelles'>Seychelles</option>
+			<option value='Sierra Leone'>Sierra Leone</option>
+			<option value='Singapore'>Singapore</option>
+			<option value='Slovenia'>Slovenia</option>
+			<option value='South Africa'>South Africa</option>
+			<option value='Spain'>Spain</option>
+			<option value='Sri Lanka'>Sri Lanka</option>
+			<option value='Suriname'>Suriname</option>
+			<option value='Swaziland'>Swaziland</option>
+			<option value='Sweden'>Sweden</option>
+			<option value='Switzerland'>Switzerland</option>
+			<option value='Syria'>Syria</option>
+			<option value='Tajikistan'>Tajikistan</option>
+			<option value='Tanzania'>Tanzania</option>
+			<option value='Thailand'>Thailand</option>
+			<option value='Trinidad and Tobago'>Trinidad and Tobago</option>
+			<option value='Tunisia'>Tunisia</option>
+			<option value='Turkey'>Turkey</option>
+			<option value='Uganda'>Uganda</option>
+			<option value='Ukraine'>Ukraine</option>
+			<option value='United Arab Emirates'>United Arab Emirates</option>
+			<option value='United Kingdom'>United Kingdom</option>
+			<option value='United States'>United States</option>
+			<option value='Uruguay'>Uruguay</option>
+			<option value='Venezuela'>Venezuela</option>
+			<option value='Yemen'>Yemen</option>
+			<option value='Zambia'>Zambia</option>
+			<option value='Zimbabwe'>Zimbabwe</option>
+		</select>
+
+		<br/><br/>
+
+		<!-- Script to implement Reset button functionality -->
+		<script>
+		function Reload() {
+			location.reload();
+		}
+		</script>
+		
+		<!-- Script to implement the Channeling Hans visualization -->
+		<script type="text/javascript">
+		
+			//Define margins
+			var margin = {top: 30, right: 450, bottom: 50, left: 50};
+			
+			//Define SVG Width and height
+			var outer_width = 1350;
+			var outer_height = 600;
+			var svg_width = outer_width - margin.left - margin.right;
+			var svg_height = outer_height - margin.top - margin.bottom;
+
+			//Create SVG element as a group with the margins transform applied to it
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", outer_width)
+						.attr("height", outer_height)
+						.style("background","#ecffff")
+						.append("g")
+						.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+						
+			//Placing Legends - rectangle
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",20)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#a65628");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",50)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#ffff33");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",80)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#4daf4a");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",110)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#984ea3");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",140)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#ff7f00");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",170)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#377eb8");
+			
+			svg.append("rect")
+			.attr("x",990)
+			.attr("y",200)
+			.attr("width",20)
+			.attr("height",20)
+			.attr("fill","#e41a1c");
+			
+			//Placing Legend Text
+			svg.append("text")      
+			.attr("x",1100)
+			.attr("y",1 )
+			.text("Legend");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",35 )
+			.text("Emerging and Developing Europe");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",65 )
+			.text("Middle East, North Africa, and Pakistan");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",95 )
+			.text("Sub-Saharan Africa");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",125 )
+			.text("Latin America and the Caribbean");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",155 )
+			.text("Commonwealth of Independent States");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",185 )
+			.text("Advanced economies");
+			
+			svg.append("text")      
+			.attr("x",1020)
+			.attr("y",215 )
+			.text("Emerging and Developing Asia");
+	
+			//Initialize display year variable
+			var display_year = 2007;
+			
+			//Function that filters data according to the selected year
+			function yearFilter(value){
+				return (value.Year == display_year)
+			};
+			
+			
+			var filteredYear = 0;
+			
+			//Function that gives the year seletect by user
+			function YeardropdownChange(value) {
+				filteredYear = value;		
+			};
+			
+			//By default no particular country is selected
+			countrySelect = '';
+			
+			//Actions when particular country is selected
+			function CountrydropdownChange(value) {
+				svg.selectAll("circle").remove();
+				display_year = 2006;
+				countrySelect = value;
+			}
+			
+			//Function that gives 1st the country selected
+			function Countryfilter(value){
+				if (countrySelect == '')
+					return value
+				else
+					return (value.Country == countrySelect)
+			}
+			
+			//By default no particular country is selected
+			countrySelect1 = '';
+				
+			//Actions when second country is selected	
+			function CountrydropdownChange1(value) {
+				svg.selectAll("circle").remove();
+				display_year = 2006;
+				countrySelect1 = value;
+			}
+			
+			//Function that returns the name of the first selected country
+			function Countryfilter1(value){
+				if (countrySelect1 == '')
+					return value
+				else
+					return (value.Country == countrySelect1)
+			}
+			
+			//Define x-axis label
+			svg.append("text")      
+				.attr("x",svg_width/2)
+				.attr("y",svg_height+45)
+				.style("text-anchor", "middle")
+				.text("GDP");
+				
+			//Define y-axis label
+			svg.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("x",-350)
+				.attr("y",-30)
+				.text("Global Competitiveness Index");
+			
+			var filtered_dataset;
+				
+			//Function for generating the main bubble plot visualization
+			function generateVis(){
+			
+				svg.selectAll(".tick")
+					.remove();
+					
+				//Filter the data to only include the current year and any other filters selected by user
+				var filtered_dataset_base = dataset.filter(yearFilter);
+				filtered_dataset_base =filtered_dataset_base.filter(function(d){return d.Global_Competitiveness_Index != 0;})
+				if (countrySelect != '') {
+				filtered_dataset1 = filtered_dataset_base.filter(Countryfilter);
+				filtered_dataset = filtered_dataset1;
+				
+					if (countrySelect1 != '') {
+					filtered_dataset2 = filtered_dataset_base.filter(Countryfilter1);
+					filtered_dataset = filtered_dataset1.concat(filtered_dataset2);
+					};
+					
+				} else {
+				filtered_dataset = filtered_dataset_base
+				};				
+				
+				//max values calculation
+				var xmax = d3.max(dataset,function(d) {return +d.GDP});
+				var xmin = d3.min(dataset,function(d) {return +d.GDP});
+				var ymax = d3.max(dataset,function(d) {return +d.Global_Competitiveness_Index});
+				var pop_max = d3.max(dataset,function(d) {return +d.Population});
+				
+				//Define x-scale
+				var xScale = d3.scaleLog()
+							.domain([xmin,xmax])
+							.range([0, svg_width]);
+				
+				//Define y-scale
+				var yScale = d3.scaleLinear()
+								.domain([0,ymax])
+								.range([svg_height,0]);
+				
+				//Define scale for radius
+				var rScale = d3.scaleLinear()
+							   .domain([0,pop_max])
+							   .range([2, 50]);
+				
+				//Define scale for country label
+				var txtScale = d3.scaleLinear()
+							   .domain([0,pop_max])
+							   .range([8, 30]);
+							   
+				//Define scale for country colors
+				var cScale = d3.scaleOrdinal()
+							   .domain(["Emerging and Developing Europe"
+										,"Middle East, North Africa, and Pakistan"
+										,"Sub-Saharan Africa"
+										,"Latin America and the Caribbean"
+										,"Commonwealth of Independent States"
+										,"Advanced economies"
+										,"Emerging and Developing Asia"])
+							   .range(["#a65628","#ffff33","#4daf4a","#984ea3","#ff7f00","#377eb8","#e41a1c"]);
+				
+				//Define x-axis
+				var xAxis = d3.axisBottom()
+								.scale(xScale)
+								.ticks(20, ",.1s")
+								.tickSize(6, 0);
+							  
+				//Define y-axis
+				var yAxis = d3.axisLeft()
+								.scale(yScale)
+								.ticks(5);
+				
+				//Call x-axis
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("id", "x-axis")
+					.attr("transform", "translate(0," + svg_height + ")")
+					.call(xAxis);
+						
+				//Call y-axis
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("id", "y-axis")
+					.call(yAxis);
+				
+				//Define background Year display
+				svg.append("text")
+					.attr("id", "newyear")
+					.attr("text-anchor","middle")         
+					.attr("x",svg_width/2)
+					.attr("y",(svg_height/2)+90)
+					.style("opacity",0.5)
+					.attr("font-size","300px")
+					.attr("fill","#a6bddb");
+
+				//Trace of 1 or 2 countries when user filters countries
+				if ((countrySelect != '')){
+
+					//Join Circles to years
+					var circles = svg.selectAll("circle")
+										.data(filtered_dataset,function key(d){return d.Year});
+																				
+					//Define circles exit parameters
+					circles.exit()
+						.transition()
+						.ease(d3.easeLinear)
+						.duration(1000)
+						.style("opacity",0.95);
+						
+					//Define circles enter parameters
+					circles.enter()
+						.append("circle")
+						.attr("cx", function(d){return xScale(+d.GDP);})
+						.attr("cy", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.attr("r", function(d){return rScale(+d.Population);})
+						.attr("fill", function(d){return cScale(d.Region);})
+						.attr("stroke",'black');
+					
+					//Join text to year				
+					var txt = svg.selectAll("text.foo")
+						.data(filtered_dataset,function key(d){return d.Year});
+							
+					//Define text exit parameters		
+					txt.exit()
+						.attr("class", "foo")
+						.remove();
+					
+					//Define text enter parameters
+					txt.enter()
+						.append("text")
+						.attr("class", "foo")
+						.attr("x", function(d){return rScale(+d.Population)+ xScale(+d.GDP);})
+						.attr("y", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.text(function(d){return d.Country;})
+						.attr("font-size", function(d){return txtScale(+d.Population);} );
+						
+				} 
+				//Animation across all the years for all the countries when no countries selected in filters
+				else {
+					//Join Circles to Countries
+					var circles = svg.selectAll("circle.foo")
+										.data(filtered_dataset,function key(d){return d.Country});
+					
+					//Define circles exit parameters
+					circles.exit()
+						.transition()
+						.duration(1000)
+						.attr("class", "foo")
+						.attr("r", 0)
+						.remove();
+					
+					//Define circles update parameters				
+					circles.transition()
+						.duration(1000)
+						.ease(d3.easeLinear)
+						.attr("class", "foo")
+						.attr("cx", function(d){return xScale(+d.GDP);})
+						.attr("cy", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.attr("r", function(d){return rScale(+d.Population);})
+						.attr("fill", function(d){return cScale(d.Region);})
+						.attr("stroke",'black');
+					
+					//Define circles enter parameters
+					circles.enter()
+						.append("circle")
+						.attr("class", "foo")
+						.attr("cx", function(d){return xScale(+d.GDP);})
+						.attr("cy", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.attr("r", function(d){return rScale(+d.Population);})
+						.attr("fill", function(d){return cScale(d.Region);})
+						.attr("stroke",'black');
+					
+					//Join text to Countries				
+					var txt = svg.selectAll("text.foo")
+						.data(filtered_dataset, function key(d){return d.Country});
+							
+					//Define text update parameters
+					txt.transition()						
+						.duration(1000)
+						.ease(d3.easeLinear)
+						.attr("class", "foo")
+						.attr("x", function(d){return rScale(+d.Population)+ xScale(+d.GDP);})
+						.attr("y", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.text(function(d){return d.Country;})
+						.attr("font-size", function(d){return txtScale(+d.Population);} );
+					
+					//Define text enter parameters
+					txt.enter()
+						.append("text")
+						.attr("class", "foo")
+						.attr("x", function(d){return rScale(+d.Population)+ xScale(+d.GDP);})
+						.attr("y", function(d){return yScale(+d.Global_Competitiveness_Index);})
+						.text(function(d){return d.Country;})
+						.attr("font-size", function(d){return txtScale(+d.Population);} );
+	
+					//Define text exit parameters		
+					txt.exit()
+						.transition()
+						.duration(1000)
+						.attr("class", "foo")
+						.remove();
+						
+				}
+
+				// Set the year label
+				d3.select("#newyear").text(display_year);
+			}
+
+			// Load the file data.csv and generate a visualisation based on it
+			d3.csv("./GCI_CompleteData4.csv")
+			.then(function(data){
+		
+					// Assign the data object loaded to the global dataset variable
+					dataset = data;
+					
+					// Generate the visualisation
+					generateVis();
+					if ((countrySelect != '')){
+						generateBarVis();
+					}
+					
+					//Iterate through our available years.
+					display_year = 2007;
+					
+					var interval = setInterval(function() {
+		
+									if (filteredYear == 0) {
+									
+										display_year = display_year + 1;
+										
+										if(display_year > 2017){
+											display_year = 2007;
+										};
+										
+										generateVis();
+										if ((countrySelect != '')){
+											generateBarVis();
+										}
+										
+															
+									} else {
+									
+										display_year = filteredYear;
+										generateVis();
+										if ((countrySelect != '')){
+											generateBarVis();
+										}
+									}
+								}, 1500);
+				}
+			);
+			
+			//Implementing functionality of the Pause button
+			function Pause(){	
+				filteredYear = display_year;
+			}
+			
+			//Implementing functionality of the Play button
+			function Play(){
+				filteredYear = 0;
+				YearDropdown.value = 0;
+			}
+			
+		</script>
+		
+		<br/><br/>
+
+		<!-- Section to display dropdown for Pillars to used for filtering -->
+		<label style="margin-left:20px; margin-right:15px;">Select Pillar</label>
+		<select id="YearDropdown" onchange="PillardropdownChange(this.value)">
+			<option value='1st_pillar_Institutions'>Institutions</option>
+			<option value='2nd_pillar_Infrastructure'>Infrastructure</option>
+			<option value='3rd_pillar_Macroeconomic_environment'>Macroeconomic_environment</option>
+			<option value='4th_pillar_Health_and_primary_education'>Health_and_primary_educatio</option>
+			<option value='5th_pillar_Higher_education_and_training'>Higher_education_and_training</option>
+			<option value='6th_pillar_Goods_market_efficiency'>Goods_market_efficiency</option>
+			<option value='7th_pillar_Labor_market_efficiency'>Labor_market_efficiency</option>
+			<option value='8th_pillar_Financial_market_development'>Financial_market_development</option>			
+			<option value='9th_pillar_Technological_readiness'>Technological_readiness</option>
+			<option value='10th_pillar_Market_size'>Market_size</option>
+			<option value='11th_pillar_Business_sophistication_'>Business_sophistication</option>
+			<option value='12th_pillar_Innovation'>Innovation</option>
+		</select>
+		<br/><br/>
+
+		<!-- Section to display the second visualization to allow comparison of individual pillars-->
+		<script type="text/javascript">
+		
+			//Define margins
+			var margin_bar = {top: 100, bottom: 100, right: 100, left: 100},
+			width = 500 - margin_bar.left - margin_bar.right,
+			height = 500 - margin_bar.top - margin_bar.bottom;
+			
+			//Create SVG element as a group with the margins transform applied to it
+			var svg_bar = d3.select("body")
+						.append("svg")
+						.attr("height", height + margin_bar.top + margin_bar.bottom)
+						.attr("width", width + margin_bar.left + margin_bar.right)
+						.style("background","#ecffff")
+						.append("g")
+						.attr("transform", "translate(" + margin_bar.left + "," + margin_bar.top + ")");
+			
+			//Define x-axis label
+			svg_bar.append("text")      
+				.attr("x",width/2)
+				.attr("y",height+185)
+				.style("text-anchor", "middle")
+				.text("Pillars");
+				
+			//Define y-axis label
+			svg_bar.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("x",-200)
+				.attr("y",-30)
+				.text("Pillar Values");
+				
+			//By default selecting first pillar during initialisation
+			PillarSelect = '1st_pillar_Institutions';
+				
+			//Function to define actions when pillar filter is selected	
+			function PillardropdownChange(value) {
+				PillarSelect = value;
+				selection = PillarSelect;
+				
+				bars.transition()
+	            .attr("height", function(d){
+					return height - y(+d[selection.value]);
+				})
+				.attr("x", function(d, i){
+					return (((width / data.length) * i)+5) ;
+				})
+				.attr("y", function(d){
+					return y(+d[selection.value]);
+				})
+           		.ease("linear")
+           		.select("title")
+           		.text(function(d){
+           			return d.Country + " : " + d[selection.value];
+           		});
+			}
+			
+			//Function to display values of individual pillars according to the year selected
+			function yearFilter_bar(value){
+				if (filteredYear == 0){
+					return (value.Year == display_year)
+				} else {
+					return (value.Year == filteredYear)
+				}
+			};
+			
+			///Function to display values of individual pillars according to the selected country filters
+			function countryFilter1_bar(value){
+				if (countrySelect == '')
+					return value
+				else
+					return (value.Country == countrySelect)
+			}
+			
+			//Function to display values of individual pillars according to the selected country filters to allow comparison between them
+			function countryFilter2_bar(value){
+				if (countrySelect == '')
+					return value
+				else
+					return (value.Country == countrySelect1)
+			}
+				
+	
+			//Function to generate the main bar chart visualization
+			function generateBarVis(){
+			
+				svg_bar.selectAll(".tick")
+					.remove();
+			
+				//Define background Year display
+				svg_bar.append("text")
+					.attr("id", "newyear1")
+					.attr("text-anchor","middle")         
+					.attr("x",width/2)
+					.attr("y",-30)
+					.style("opacity",0.8)
+					.attr("font-size","20px")
+					.attr("fill","black");
+				
+				//Filtering data for particular year and filters countries by users
+				var filtered_dataset_bar = dataset.filter(yearFilter_bar);
+				filtered_dataset1_bar = filtered_dataset_bar.filter(countryFilter1_bar);
+				filtered_dataset2_bar = filtered_dataset_bar.filter(countryFilter2_bar);
+				data = filtered_dataset1_bar.concat(filtered_dataset2_bar);
+
+				var selection = PillarSelect
+				
+				//Desplay year in the heading
+				svg_bar.append("text")
+					.attr("id", "pillar")
+					.attr("text-anchor","middle")         
+					.attr("x",width/2)
+					.attr("y",-70)
+					.style("opacity",0.8)
+					.attr("font-size","20px")
+					.attr("fill","black");
+				
+				//Define X scale
+				var x = d3.scaleBand()
+						.domain(data.map(function(d){ return (d.Country);}))
+						.range([0,width]);
+			
+				//Define Y scale
+				var y = d3.scaleLinear()
+						.domain([0, 7])
+						.range([height, 0]);
+			
+				//Define X axis
+				var xAxis = d3.axisBottom()
+							.scale(x);
+			
+				//Define Y axis
+				var yAxis = d3.axisLeft()
+							.scale(y);
+				
+				//Call X axis
+				svg_bar.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(0," + height + ")")
+					.call(xAxis);
+					
+				//Call Y axis
+				svg_bar.append("g")
+					.attr("class", "y axis")
+					.call(yAxis);
+				
+				//Defining Bar chart
+				var bars = svg_bar.selectAll("rect")
+							.data(data,function key(d){return d.Year});
+							
+				bars.enter()
+					.append("rect")
+					.attr("width", width/data.length-10)
+					.attr("height", function(d){
+						return (height) - y(+d[selection]);
+					})
+					.attr("x", function(d, i){
+						return (((width / data.length) * i)+5) ;
+					})
+					.attr("y", function(d){
+						return y(+d[selection]);
+					})
+					.attr("fill","blue")
+					.append("title")
+					.text(function(d){
+						return d.Country + " : " + d[selection];
+					});
+					
+				bars.exit().remove();
+					
+				d3.select("#newyear1").text(display_year);
+				d3.select("#pillar").text(selection);
+				
+			}				
+		</script>
+</body>	 
+</html>
